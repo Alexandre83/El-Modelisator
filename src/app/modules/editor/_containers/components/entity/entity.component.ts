@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'el-entity',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./entity.component.scss']
 })
 export class EntityComponent implements OnInit {
+  @Input()
+  title: string;
+
   constructor() {}
 
   ngOnInit() {}

@@ -1,18 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MDBBootstrapModulesPro } from 'ng-uikit-pro-standard';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BootstrapComponent } from './bootstrap/bootstrap.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [BootstrapComponent],
   imports: [
+    SharedModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MDBBootstrapModulesPro.forRoot()
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [BootstrapComponent]
 })
-export class AppModule { }
+export class AppModule {}

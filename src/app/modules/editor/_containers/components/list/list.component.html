@@ -1,0 +1,28 @@
+<div class="list-group" *ngFor="let field of obj | keyvalue">
+  <a
+    class="list-group-item waves-light ml-{{ nestedIndex }}"
+    *ngIf="!isObject(field.value)"
+    style="border: none;"
+    mdbWavesEffect
+  >
+    {{ field.key }} :
+    <mat-form-field>
+      <mat-label>Select a type</mat-label>
+      <mat-select [(value)]="field.value">
+        <mat-option value="string">String</mat-option>
+        <mat-option value="number">Number</mat-option>
+        <mat-option value="boolean">Boolean</mat-option>
+        <mat-option value="Date">Date</mat-option>
+        <mat-option value="Timestamp">Timestamp</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </a>
+  <a
+    class="list-group-item waves-light"
+    *ngIf="isObject(field.value)"
+    mdbWavesEffect
+  >
+    {{ field.key }} : object =>
+    <el-list [obj]="field.value" [nestedIndex]="nestedIndex + 1"></el-list>
+  </a>
+</div>

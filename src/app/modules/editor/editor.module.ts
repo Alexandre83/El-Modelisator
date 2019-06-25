@@ -1,14 +1,20 @@
 import { NgModule } from '@angular/core';
 import { GridsterModule } from 'angular-gridster2';
+import { NgJsonEditorModule } from 'ang-jsoneditor';
 
 import { EditorRoutingModule } from './editor-routing.module';
-import { GridComponent } from './_containers/pages/grid/grid.component';
-import { EntityComponent } from './_containers/components/entity/entity.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ConnectionComponent } from './_containers/pages/connection/connection.component';
+import { EditorComponent } from './_containers/pages/editor/editor.component';
+import { ListComponent } from './_containers/components/list/list.component';
 
 @NgModule({
-  declarations: [GridComponent, EntityComponent, ConnectionComponent],
-  imports: [SharedModule, EditorRoutingModule, GridsterModule]
+  declarations: [ConnectionComponent, EditorComponent, ListComponent],
+  imports: [
+    SharedModule,
+    EditorRoutingModule,
+    GridsterModule,
+    NgJsonEditorModule
+  ]
 })
 export class EditorModule {}

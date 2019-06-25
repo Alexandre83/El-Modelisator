@@ -1,29 +1,31 @@
-<div class="jumbotron">
-  <h1 class="display-4">Connection</h1>
-  <div class="md-form input-group">
-    <input
-      type="text"
-      aria-label="ip address"
-      class="form-control"
-      placeholder="localhost"
-    />
-    <div class="input-group-prepend">
-      <span class="input-group-text md-addon">:</span>
+<div class="connection-form">
+  <div class="jumbotron">
+    <h1 class="display-4">Connection</h1>
+    <div class="md-form input-group">
+      <input
+        type="text"
+        aria-label="ip address"
+        class="form-control"
+        placeholder="localhost"
+      />
+      <div class="input-group-prepend">
+        <span class="input-group-text md-addon">:</span>
+      </div>
+      <input
+        type="text"
+        aria-label="port"
+        class="form-control"
+        placeholder="27017"
+      />
     </div>
-    <input
-      type="text"
-      aria-label="port"
-      class="form-control"
-      placeholder="27017"
-    />
-  </div>
-  <div class="md-form">
-    <i class="fas fa-database prefix"></i>
-    <input type="text" id="inputIconEx1" class="form-control" />
-    <label for="inputIconEx1">Database</label>
-  </div>
+    <div class="md-form">
+      <i class="fas fa-database prefix"></i>
+      <input type="text" id="inputIconEx1" class="form-control" />
+      <label for="inputIconEx1">Database</label>
+    </div>
 
-  <button type="button" class="btn btn-light-blue" (click)="">
-    Light blue
-  </button>
+    <button mdbBtn type="button" color="light-blue" mdbWavesEffect>
+      Try connection
+    </button>
+  </div>
 </div>

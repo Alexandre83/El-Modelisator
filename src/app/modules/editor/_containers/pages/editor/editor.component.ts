@@ -1,57 +1,69 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Timestamp } from 'bson';
-import * as _ from 'lodash';
-import { JsonEditorOptions, JsonEditorComponent } from 'ang-jsoneditor';
+import { ActivatedRoute } from '@angular/router';
+import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 
-type FieldsType =
-  | 'string'
-  | 'number'
-  | 'boolean'
-  | SchemaType
-  | 'Date'
-  | 'Timestamp';
-interface SchemaType {
-  [key: string]: FieldsType;
-}
+import { ProjectService } from '../../../../../core/services/project.service';
+import { FieldTypeEnum } from '../../../_models/enums/field-type.enum';
+import { Project } from '../../../_models/project.model';
 
 @Component({
-  selector: 'el-editor',
-  templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.scss']
+    selector: 'el-editor',
+    templateUrl: './editor.component.html',
+    styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
-  @ViewChild(JsonEditorComponent) editor: JsonEditorComponent;
+    @ViewChild(JsonEditorComponent) editor: JsonEditorComponent;
 
-  public editorOptions: JsonEditorOptions;
-  fields: SchemaType;
+    public editorOptions: JsonEditorOptions;
+    public project: Project;
 
-  constructor() {
-    this.editorOptions = new JsonEditorOptions();
-    this.editorOptions.modes = ['tree', 'view'];
-  }
+    constructor(private route: ActivatedRoute, private projectService: ProjectService) {
+        this.editorOptions = new JsonEditorOptions();
+        this.editorOptions.modes = ['tree', 'view'];
+    }
 
-  ngOnInit() {
-    this.fields = {
-      testA: 'string',
-      testB: {
-        testAB: 'number',
-        testBB: {
-          testAAB: 'number'
-        }
-      },
-      testC: 'Date'
-    };
-  }
+    async ngOnInit() {
+        this.route.params.subscribe(async params => {
+            const projectUID = params.uid;
+            if (projectUID && projectUID === 'demo') {
+                this.project = {
+                    uid: 'demo',
+                    name: 'Demo',
+                    collections: [
+                        {
+                            name: 'user',
+                            fields: {
+                                uid: FieldTypeEnum.STRING,
+                                name: FieldTypeEnum.STRING,
+                                email: FieldTypeEnum.STRING,
+                                password: FieldTypeEnum.STRING,
+                                geoloc: {
+                                    lat: FieldTypeEnum.DECIMAL_128,
+                                    lng: FieldTypeEnum.DECIMAL_128,
+                                    address: {
+                                        street: FieldTypeEnum.STRING,
+                                        zip: FieldTypeEnum['32_BIT_INTEGER'],
+                                    }
+                                },
+                                created: FieldTypeEnum.DATE,
+                                updated: FieldTypeEnum.DATE
+                            }
+                        }
+                    ]
+                };
+            } else {
+                this.project = await this.projectService.get(projectUID);
+            }
+        });
 
-  public addField(name: string, type: SchemaType) {
-    this.fields[name] = type;
-  }
+    }
 
-  deletePropertyPath(...args: string[]) {
-    this.fields = _.omit(this.fields, args);
-  }
+    public removeCollection(collectionName: string) {
+        const collectionToRemove = this.project.collections.findIndex(collection => collection.name === collectionName);
+        this.project.collections.splice(collectionToRemove, 1);
+    }
 
-  displaySchema(): string {
-    return JSON.stringify(this.fields, undefined, 4);
-  }
+    public save() {
+        this.projectService.save(this.project);
+    }
 }

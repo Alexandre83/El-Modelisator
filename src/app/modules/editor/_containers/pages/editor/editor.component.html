@@ -1,8 +1,40 @@
-<div class="row">
-  <div class="col">
-    <el-list [obj]="fields" [nestedIndex]="0"></el-list>
-  </div>
-  <div class="col">
-    <json-editor [options]="editorOptions" [data]="fields"></json-editor>
-  </div>
+<mat-tab-group *ngIf="project">
+  <mat-tab *ngFor="let collection of project.collections">
+    <ng-template mat-tab-label>
+      {{ collection.name }}
+    </ng-template>
+
+    <div class="row w-100">
+      <div class="col-lg-8 p-4">
+        <el-list [(ngModel)]="collection.fields" (ngModelChange)="save()" [nestedIndex]="0"></el-list>
+      </div>
+
+      <div class="col-lg-4 p-4">
+        <el-collection-form [(ngModel)]="collection" (ngModelChange)="save()" type="update"></el-collection-form>
+        <button mat-raised-button color="warn" (click)="removeCollection(collection.name)">
+          <mat-icon class="mr-2">delete_outline</mat-icon>
+          Delete the collection
+        </button>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="mr-1">add</mat-icon>
+    </ng-template>
+
+    <div class="w-100">
+      <div class="p-4">
+        <el-collection-form [(ngModel)]="project" (ngModelChange)="save()" type="create"></el-collection-form>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<div class="actions">
+  <button mat-fab color="primary" matTooltip="Export the script">
+    <mat-icon class="material-icons-outlined">eject</mat-icon>
+  </button>
 </div>
+

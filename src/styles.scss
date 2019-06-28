@@ -1,4 +1,84 @@
 @import '~jsoneditor/dist/jsoneditor.min.css';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~bootstrap/scss/reboot';
+@import '~bootstrap/scss/grid';
+@import '~bootstrap/scss/utilities';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+$custom-typography: mat-typography-config(
+    $font-family: 'Open Sans'
+);
+
+@include mat-core($custom-typography);
+
+// custom background and foreground palettes
+$my-dark-theme-background: (
+    status-bar: black,
+    app-bar: map_get($mat-indigo, 900),
+    background: map_get($mat-gray, 900),
+    hover: rgba(white, 0.04),
+    card: map_get($mat-gray, 800),
+    dialog: map_get($mat-gray, 800),
+    disabled-button: $white-12-opacity,
+    raised-button: map-get($mat-gray, 800),
+    focused-button: $white-6-opacity,
+    selected-button: map_get($mat-gray, 900),
+    selected-disabled-button: map_get($mat-gray, 800),
+    disabled-button-toggle: black,
+    unselected-chip: map_get($mat-gray, 700),
+    disabled-list-option: black,
+);
+
+$my-dark-theme-foreground: (
+    base: white,
+    divider: $white-12-opacity,
+    dividers: $white-12-opacity,
+    disabled: rgba(white, 0.3),
+    disabled-button: rgba(white, 0.3),
+    disabled-text: rgba(white, 0.3),
+    hint-text: rgba(white, 0.3),
+    secondary-text: rgba(white, 0.7),
+    icon: white,
+    icons: white,
+    text: white,
+    slider-min: white,
+    slider-off: rgba(white, 0.3),
+    slider-off-active: rgba(white, 0.3),
+);
+
+// instead of creating a theme with mat-light-theme like a sane person, we will create our own theme-creating function that lets us apply our own foreground and background palettes.
+@function create-wonky-theme($primary, $accent, $warn: mat-palette($mat-red)) {
+    @return (
+        primary: $primary,
+        accent: $accent,
+        warn: $warn,
+        is-dark: false,
+        foreground: $my-dark-theme-foreground,
+        background: $my-dark-theme-background,
+    );
+}
+
+// The rest of this is like a normal theme.scss file. The only difference being that we use create-wonky-theme instead of mat-light-theme
+$custom-theme-primary: mat-palette($mat-blue);
+$custom-theme-accent: mat-palette($mat-indigo);
+$custom-theme-warn: mat-palette($mat-red, 600);
+
+$custom-theme: create-wonky-theme($custom-theme-primary, $custom-theme-accent, $custom-theme-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($custom-theme);
 
 /* You can add global styles to this file, and also import other style files */
 body {
@@ -12,5 +92,5 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }

@@ -1,28 +1,94 @@
-<div class="list-group" *ngFor="let field of obj | keyvalue">
-  <a
-    class="list-group-item waves-light ml-{{ nestedIndex }}"
-    *ngIf="!isObject(field.value)"
-    style="border: none;"
-    mdbWavesEffect
-  >
-    {{ field.key }} :
-    <mat-form-field>
-      <mat-label>Select a type</mat-label>
-      <mat-select [(value)]="field.value">
-        <mat-option value="string">String</mat-option>
-        <mat-option value="number">Number</mat-option>
-        <mat-option value="boolean">Boolean</mat-option>
-        <mat-option value="Date">Date</mat-option>
-        <mat-option value="Timestamp">Timestamp</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </a>
-  <a
-    class="list-group-item waves-light"
-    *ngIf="isObject(field.value)"
-    mdbWavesEffect
-  >
-    {{ field.key }} : object =>
-    <el-list [obj]="field.value" [nestedIndex]="nestedIndex + 1"></el-list>
-  </a>
-</div>
+<ng-container *ngIf="ObjKeyLength > 0; else noField">
+  <div class="list-group"
+       *ngFor="let field of obj | keyvalue; let last = last">
+    <a class="list-group-item waves-light"
+       [style.margin-left]="nestedIndex * 50 + 'px'"
+       *ngIf="!isObject(field.value); else selectObject"
+       style="border: none;"
+       mdbWavesEffect>
+      <span contenteditable
+            class="field-input"
+            (blur)="changeKey(field.key, $event.srcElement.innerText)">{{ field.key }}</span> :
+      <mat-form-field appearance="fill">
+        <mat-label>Select a type</mat-label>
+        <mat-select [(value)]="field.value"
+                    (valueChange)="valueChange($event, field)">
+          <mat-option *ngFor="let fieldType of fieldTypesKey"
+                      [value]="fieldType === 'OBJECT' ? {field_name: 'string'} : fieldTypes[fieldType]">{{ fieldType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-mini-fab
+              color="warn"
+              class="ml-3"
+              (click)="removeField(field.key)">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+      <button mat-mini-fab
+              *ngIf="last"
+              class="ml-3"
+              (click)="addField()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </a>
+    <ng-template #selectObject>
+      <a class="list-group-item waves-light"
+         style="border: none;"
+         [style.margin-left]="nestedIndex * 50 + 'px'"
+         mdbWavesEffect>
+        <span contenteditable
+              (blur)="changeKey(field.key, $event.srcElement.innerText)">{{ field.key }}</span> :
+        <mat-form-field appearance="fill">
+          <mat-label>Select a type</mat-label>
+          <mat-select value="object"
+                      (valueChange)="changeType(field, $event)">
+            <mat-option *ngFor="let fieldType of fieldTypesKey"
+                        [value]="fieldTypes[fieldType]">{{ fieldType }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-mini-fab
+                color="warn"
+                class="ml-3"
+                (click)="removeField(field.key)">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+        <button mat-mini-fab
+                *ngIf="last"
+                class="ml-3"
+                (click)="addField()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button mat-mini-fab
+                class="ml-3"
+                color="primary"
+                (click)="collapsed = !collapsed">
+          <mat-icon>{{ collapsed ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</mat-icon>
+        </button>
+      </a>
+    </ng-template>
+    <a class="list-group-item waves-light"
+       *ngIf="isObject(field.value)"
+       mdbWavesEffect>
+      <span class="object"
+            [style.margin-left]="nestedIndex * 50 + 'px'">{{ '{' }}</span>
+      <el-list [(ngModel)]="field.value"
+               *ngIf="!collapsed"
+               [nestedIndex]="nestedIndex + 1"></el-list>
+      <span *ngIf="collapsed"
+            class="mx-3">...</span>
+      <span class="object"
+            [style.margin-left]="!collapsed ? nestedIndex * 50 + 'px' : 0">{{ '}' }}</span>
+    </a>
+  </div>
+</ng-container>
+
+<ng-template #noField>
+  <button mat-raised-button
+          [style.margin-left]="nestedIndex * 50 + 'px'"
+          class="d-block my-3"
+          color="primary"
+          (click)="addField()">
+    <mat-icon class="mr-2">add</mat-icon>
+    Add your first field
+  </button>
+</ng-template>

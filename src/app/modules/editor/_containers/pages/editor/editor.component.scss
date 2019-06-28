@@ -1,0 +1,23 @@
+::ng-deep {
+    .mat-tab-group {
+        .mat-tab-header {
+            display: flex;
+            overflow: hidden;
+            position: sticky !important;
+            flex-shrink: 0;
+            top: 64px !important;
+            background: black !important;
+            z-index: 9999 !important;
+        }
+    }
+}
+
+.actions {
+    position: fixed;
+    bottom: 15px;
+    right: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

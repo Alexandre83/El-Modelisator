@@ -1,0 +1,20 @@
+@import '../../../../../../variables.scss';
+
+:host {
+    .list-group-item {
+        background-color: transparent !important;
+        padding: 0.25rem 1.25rem !important;
+    }
+
+    .object {
+        color: $accent;
+    }
+
+    .field-input {
+        cursor: text;
+        outline: none;
+        background-color: transparent;
+        border: 0;
+        color: white;
+    }
+}

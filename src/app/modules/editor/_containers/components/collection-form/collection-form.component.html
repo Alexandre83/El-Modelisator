@@ -1,0 +1,20 @@
+<form *ngIf="collectionForm"
+      [formGroup]="collectionForm">
+  <label for="name"
+         class="mr-2">Name of the collection :</label>
+  <mat-form-field appearance="fill">
+    <input type="text"
+           id="name"
+           matInput
+           placeholder="Name"
+           formControlName="name">
+    <button color="primary"
+            type="submit"
+            matSuffix
+            [disabled]="collectionForm.invalid"
+            (click)="onSubmit()"
+            mat-icon-button>
+      <mat-icon>check</mat-icon>
+    </button>
+  </mat-form-field>
+</form>

@@ -1,10 +1,16 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import {
-  MatIconModule,
-  MatToolbarModule,
+  MatButtonModule,
   MatCardModule,
+  MatDialogModule,
   MatFormFieldModule,
-  MatSelectModule
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatSelectModule,
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule,
 } from '@angular/material';
 
 @NgModule({
@@ -14,14 +20,28 @@ import {
     MatToolbarModule,
     MatCardModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTabsModule,
+    MatListModule,
+    MatTooltipModule,
+    MatDialogModule
   ],
   exports: [
     MatIconModule,
     MatToolbarModule,
     MatCardModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTabsModule,
+    MatListModule,
+    MatTooltipModule,
+    MatDialogModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
